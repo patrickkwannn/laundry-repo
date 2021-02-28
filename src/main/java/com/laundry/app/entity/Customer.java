@@ -8,43 +8,46 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "customer")
 public class Customer implements Serializable {
+
     @Id
-    @Column("customer_id")
+    @Column(name = "customer_id")
     private long customerId;
 
-    @Column("real_name")
+    @Column(name = "real_name")
     private String fullName;
 
-    @Column("username")
+    @Column(name = "username")
     private String username;
 
-    @Column("gender")
+    @Column(name = "gender")
     private String gender;
 
-    @Column("email")
+    @Column(name = "email")
     @Email
     private String email;
 
-    @Column("address")
+    @Column(name = "address")
     private String address;
 
-    @Column("dob")
+    @Column(name = "dob")
     private Date dob;
 
-    @Column("password")
+    @Column(name = "password")
     @JsonIgnore
     private String password;
 
-    @Column("phone_number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column("created_date")
+    @Column(name = "created_date")
     private Date createdDate;
 }

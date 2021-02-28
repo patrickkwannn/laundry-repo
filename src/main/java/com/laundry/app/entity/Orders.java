@@ -6,57 +6,59 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
 @Setter
 @Getter
-public class Order implements Serializable {
+@Table(name = "orders")
+public class Orders implements Serializable {
 
     @Id
-    @Column("order_id")
+    @Column(name = "order_id")
     private long orderId;
 
-    @Column("kaos")
+    @Column(name = "kaos")
     private int kaos;
 
-    @Column("kemeja")
+    @Column(name = "kemeja")
     private int kemeja;
 
-    @Column("jeans")
+    @Column(name = "jeans")
     private int jeans;
 
-    @Column("cleana_panjang")
+    @Column(name = "cleana_panjang")
     private int celanaPanjang;
 
-    @Column("celana_pendek")
+    @Column(name = "celana_pendek")
     private int celanaPendek;
 
-    @Column("sepatu")
+    @Column(name = "sepatu")
     private int sepatu;
 
-    @Column("kaos_kaki")
+    @Column(name = "kaos_kaki")
     private int kaosKaki;
 
-    @Column("tas")
+    @Column(name = "tas")
     private int tas;
 
-    @Column("jaket")
+    @Column(name = "jaket")
     private int jaket;
 
-    @Column("bed_cover")
+    @Column(name = "bed_cover")
     private int bedCover;
 
-    @Column("selimut")
+    @Column(name = "selimut")
     private int selimut;
 
-    @Column("handuk")
+    @Column(name = "handuk")
     private int handuk;
 
-    @Column("sweater")
+    @Column(name = "sweater")
     private int sweater;
 
-    @Column("order_type")
+    @Column(name = "order_type")
     private String orderType; //piece / kilos
 
 }
