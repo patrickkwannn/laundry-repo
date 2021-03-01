@@ -1,64 +1,36 @@
 package com.laundry.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Setter
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "orders")
 public class Orders implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private long orderId;
 
-    @Column(name = "kaos")
-    private int kaos;
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Items items;
 
-    @Column(name = "kemeja")
-    private int kemeja;
+    @Column(name = "quantity")
+    private int quantity;
 
-    @Column(name = "jeans")
-    private int jeans;
-
-    @Column(name = "cleana_panjang")
-    private int celanaPanjang;
-
-    @Column(name = "celana_pendek")
-    private int celanaPendek;
-
-    @Column(name = "sepatu")
-    private int sepatu;
-
-    @Column(name = "kaos_kaki")
-    private int kaosKaki;
-
-    @Column(name = "tas")
-    private int tas;
-
-    @Column(name = "jaket")
-    private int jaket;
-
-    @Column(name = "bed_cover")
-    private int bedCover;
-
-    @Column(name = "selimut")
-    private int selimut;
-
-    @Column(name = "handuk")
-    private int handuk;
-
-    @Column(name = "sweater")
-    private int sweater;
-
-    @Column(name = "order_type")
-    private String orderType; //piece / kilos
-
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "transaction_id")
+    @JsonIgnore
+    private Transaction transaction;
 }

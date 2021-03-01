@@ -1,5 +1,7 @@
 package com.laundry.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.criterion.Order;
@@ -7,13 +9,19 @@ import org.hibernate.criterion.Order;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "transaction")
 public class Transaction implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
     private long transactionId;
 
@@ -23,17 +31,23 @@ public class Transaction implements Serializable {
     @Column(name = "progress") //progres laundry (lagi dicuci/dikeringin)
     private String progress;
 
+    @Column(name = "ongkir")
+    private long ongkir;
+
     @Column(name = "total_price")
     private long totalPrice;
 
     @Column(name = "created_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="Asia/Jakarta")
     private Date createdDate;
 
     @Column(name = "finish_date") //kapan bisa diambil
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="Asia/Jakarta")
     private Date finishDate;
 
-    @Column(name = "transaction_type")
-    private String transactionType;
+    @ManyToOne
+    @JoinColumn(name = "transaction_type_id") //tipe transaksi / tipe paket ( cepat - 3 hari )
+    private TransactionType transactionType;
 
     @Column(name = "delivery_type") //tipe pengambilan barang
     private String deliveryType;
@@ -44,9 +58,8 @@ public class Transaction implements Serializable {
     @Column(name = "payment_type") //tipe pembayaran
     private String paymentType;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Orders orders;
+    @Column(name = "order_type")
+    private String orderType; //piece / kilos
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
