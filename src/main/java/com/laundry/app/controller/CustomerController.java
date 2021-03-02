@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/secured")
 public class CustomerController {
 
     private final AuthenticationManager authenticationManager;

@@ -14,6 +14,7 @@ public class TransactionDomain {
     private long userId;
     private long transactionTypeId;
     private String deliveryType;
+    private Date pickUpDate;
     private String paymentType;
     private String submissionType;
     private String category;

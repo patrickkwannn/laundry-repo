@@ -27,28 +27,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Set<Orders> createOrder(TransactionDomain domain, Transaction transaction) throws NotFoundException {
-
-        Set<Orders> ordersSet = new HashSet<>();
+    public void createOrder(TransactionDomain domain, Transaction transaction) throws NotFoundException {
 
         for(Map.Entry<String, Integer> entry : domain.getItems().entrySet()){
             Orders orders = new Orders();
             orders.setItems(itemsService.getById(Long.parseLong(entry.getKey())));
             orders.setQuantity(entry.getValue());
             orders.setTransaction(transaction);
-            ordersSet.add(orders);
             orderRepository.save(orders);
         }
 
-        return ordersSet;
-    }
-
-    @Override
-    public Orders getById(long id) throws NotFoundException {
-        if(!orderRepository.existsById(id)){
-            throw new NotFoundException("Order with id " + id + " is not found");
-        }
-        return orderRepository.getOne(id);
     }
 
     @Override
@@ -76,8 +64,20 @@ public class OrderServiceImpl implements OrderService {
         ordersDomain.setTransactionType(transaction.getTransactionType().getTransactionTypeName());
         ordersDomain.setDeliveryType(transaction.getDeliveryType());
         ordersDomain.setSubmissionType(transaction.getSubmissionType());
+        ordersDomain.setPickUpDate(transaction.getPickUpDate());
 
         return ordersDomain;
     }
 
+    @Override
+    public List<OrdersDomain> setListOrderDomain(List<Transaction> transactions) {
+        List<OrdersDomain> ordersDomains = new ArrayList<>();
+
+        for(Transaction t : transactions){
+            OrdersDomain ordersDomain = setOrderDomain(t);
+            ordersDomains.add(ordersDomain);
+        }
+
+        return ordersDomains;
+    }
 }

@@ -24,4 +24,5 @@ public class OrdersDomain {
     private String deliveryType;
     private String paymentType;
     private String submissionType;
+    private Date pickUpDate;
 }

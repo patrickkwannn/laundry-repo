@@ -46,15 +46,14 @@ public class CustomerServiceImpl implements UserDetailsService, CustomerService 
 
     private Set<SimpleGrantedAuthority> getAuthority(Customer user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-        });
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
         return authorities;
     }
 
     @Override
     public Customer saveCustomer(CustomerDomain newCustomer) {
         Customer customer = new Customer();
+        validateUser(newCustomer.getEmail(), newCustomer.getUsername());
         customer.setAddress(newCustomer.getAddress());
         customer.setEmail(newCustomer.getEmail());
         customer.setDob(newCustomer.getDob());
@@ -69,6 +68,12 @@ public class CustomerServiceImpl implements UserDetailsService, CustomerService 
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         customer.setRoles(roles);
+
+        if(customer.getUsername().equalsIgnoreCase(Const.ADMIN)){
+            Role rolex = roleService.getByRoleName(Const.ADMIN);
+            roles.add(rolex);
+            customer.setRoles(roles);
+        }
 
         return customerRepository.save(customer);
     }
@@ -86,4 +91,9 @@ public class CustomerServiceImpl implements UserDetailsService, CustomerService 
         return customerRepository.getOne(customerId);
     }
 
+    private void validateUser(String email, String username){
+        if(customerRepository.existsByEmail(email) || customerRepository.existsByUsername(username)){
+            throw new IllegalArgumentException("User already exists");
+        }
+    }
 }

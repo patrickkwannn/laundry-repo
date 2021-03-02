@@ -61,6 +61,9 @@ public class Transaction implements Serializable {
     @Column(name = "order_type")
     private String orderType; //piece / kilos
 
+    @Column(name = "pick_up_date")
+    private Date pickUpDate;
+
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;

@@ -12,16 +12,20 @@ import com.laundry.app.service.OrderService;
 import com.laundry.app.service.TransactionService;
 import com.laundry.app.service.TransactionTypeService;
 import javassist.NotFoundException;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
+    private final Environment environment;
     private final TransactionRepository repository;
     private final OrderService orderService;
     private final CustomerService customerService;
@@ -30,11 +34,13 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionServiceImpl(TransactionRepository repository,
                                   OrderService orderService,
                                   CustomerService customerService,
-                                  TransactionTypeService transactionTypeService){
+                                  TransactionTypeService transactionTypeService,
+                                  Environment environment){
         this.repository = repository;
         this.orderService = orderService;
         this.customerService = customerService;
         this.transactionTypeService = transactionTypeService;
+        this.environment = environment;
     }
 
     @Override
@@ -61,13 +67,14 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setSubmissionType(transactionDomain.getSubmissionType());
         transaction.setOngkir(Const.ZERO);
         transaction.setOrderType(transactionDomain.getCategory());
+        transaction.setPickUpDate(transactionDomain.getPickUpDate());
 
         if(transaction.getDeliveryType().equals(Const.DELIVERY_DIANTAR)){
-            transaction.setOngkir(transaction.getOngkir() + 10000);
+            transaction.setOngkir(transaction.getOngkir() + Long.parseLong(Objects.requireNonNull(environment.getProperty("laundry.payment.delivery.price"))));
         }
 
         if(transaction.getSubmissionType().equals(Const.DEPOSIT_DIJEMPUT)){
-            transaction.setOngkir(transaction.getOngkir() + 10000);
+            transaction.setOngkir(transaction.getOngkir() + Long.parseLong(Objects.requireNonNull(environment.getProperty("laundry.payment.delivery.price"))));
         }
 
         transaction.setPaymentType(transactionDomain.getPaymentType());
@@ -88,6 +95,36 @@ public class TransactionServiceImpl implements TransactionService {
             throw new NotFoundException("Transaction with id " + id + " is not found");
         }
         return repository.getOne(id);
+    }
+
+    @Override
+    public List<Transaction> getByCustomerId(long customerId) {
+        return repository.findAllByCustomer_CustomerIdOrderByCreatedDateDesc(customerId);
+    }
+
+    @Override
+    public Transaction updateProgress(long id) throws NotFoundException {
+        Transaction transaction = getById(id);
+
+        switch (transaction.getProgress()){
+            case Const.STARTING:
+                transaction.setProgress(Const.STARTED);
+                break;
+            case Const.STARTED:
+                transaction.setProgress(Const.FINISHED_IRONING);
+                break;
+            case Const.FINISHED_IRONING:
+                transaction.setProgress(Const.FINISHED_WASHING);
+                transaction.setStatus(Const.DONE);
+                break;
+        }
+
+        return repository.save(transaction);
+    }
+
+    @Override
+    public List<Transaction> getOngoingTransaction(long customerId) {
+        return repository.findAllByCustomer_CustomerIdAndStatusOrderByCreatedDateDesc(customerId, Const.WIP);
     }
 
     private Long calculatePrice(Transaction transaction) {
