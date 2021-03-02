@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author Patrick Kwan
@@ -29,6 +30,9 @@ public class Store implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+
+    @Column(name = "longitude")
+    private BigDecimal longitude;
 }

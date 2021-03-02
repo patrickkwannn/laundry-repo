@@ -92,8 +92,12 @@ public class CustomerServiceImpl implements UserDetailsService, CustomerService 
     }
 
     private void validateUser(String email, String username){
-        if(customerRepository.existsByEmail(email) || customerRepository.existsByUsername(username)){
-            throw new IllegalArgumentException("User already exists");
+        if(customerRepository.existsByEmail(email)){
+            throw new IllegalArgumentException("User already exists for email : " + email);
+        }
+
+        if(customerRepository.existsByUsername(username)){
+            throw new IllegalArgumentException("User already exists for username : " + username);
         }
     }
 }
