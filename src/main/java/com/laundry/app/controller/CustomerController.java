@@ -19,6 +19,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/secured")
 public class CustomerController {
@@ -58,4 +60,8 @@ public class CustomerController {
         return ResponseEntity.ok(new AuthToken(token));
     }
 
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> allRoles(){
+        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+    }
 }

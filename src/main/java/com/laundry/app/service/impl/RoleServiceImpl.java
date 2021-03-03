@@ -8,6 +8,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Patrick Kwan
  * Created on 01/03/2021
@@ -36,17 +38,26 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.save(role);
     }
 
+    @Override
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
     @EventListener(ApplicationReadyEvent.class)
     public void addBasicRoles(){
-        Role role = new Role();
-        role.setDescription("role for customer");
-        role.setName("USER");
-        roleRepository.save(role);
+        if(!roleRepository.existsById(1L)) {
+            Role role = new Role();
+            role.setDescription("role for customer");
+            role.setName("USER");
+            roleRepository.save(role);
+        }
 
-        Role rolex = new Role();
-        role.setDescription("role for admins");
-        role.setName("ADMIN");
-        roleRepository.save(rolex);
+        if(!roleRepository.existsById(2L)) {
+            Role rolex = new Role();
+            rolex.setDescription("role for admins");
+            rolex.setName("ADMIN");
+            roleRepository.save(rolex);
+        }
     }
 
 }
