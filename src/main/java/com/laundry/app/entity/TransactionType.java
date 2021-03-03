@@ -20,7 +20,7 @@ import java.util.Date;
 @Table(name = "transaction_type")
 public class TransactionType implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +40,6 @@ public class TransactionType implements Serializable {
     @Column(name = "base_price")
     private long price;
 
+    @Column(name = "days_needed")
+    private int daysNeeded;
 }

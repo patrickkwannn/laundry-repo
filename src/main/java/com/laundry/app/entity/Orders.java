@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Table(name = "orders")
 public class Orders implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

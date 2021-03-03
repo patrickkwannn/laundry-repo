@@ -4,9 +4,11 @@ import com.laundry.app.domain.StoreDomain;
 import com.laundry.app.domain.StoreInfo;
 import com.laundry.app.entity.Store;
 import com.laundry.app.service.StoreService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -25,10 +27,11 @@ public class StoreController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<StoreInfo> storeInfo(){
+    public ResponseEntity<StoreInfo> storeInfo() throws NotFoundException {
         return new ResponseEntity<>(storeService.createStoreInfo(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<Store> addStore(@RequestBody StoreDomain storeDomain){
         return new ResponseEntity<>(storeService.addStore(storeDomain), HttpStatus.OK);

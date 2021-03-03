@@ -2,45 +2,37 @@ package com.laundry.app.service.impl;
 
 import com.laundry.app.domain.TransactionDomain;
 import com.laundry.app.en.Const;
-import com.laundry.app.entity.Customer;
-import com.laundry.app.entity.Orders;
-import com.laundry.app.entity.Transaction;
-import com.laundry.app.entity.TransactionType;
+import com.laundry.app.entity.*;
 import com.laundry.app.repository.TransactionRepository;
-import com.laundry.app.service.CustomerService;
-import com.laundry.app.service.OrderService;
-import com.laundry.app.service.TransactionService;
-import com.laundry.app.service.TransactionTypeService;
+import com.laundry.app.service.*;
 import javassist.NotFoundException;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    private final Environment environment;
     private final TransactionRepository repository;
     private final OrderService orderService;
     private final CustomerService customerService;
     private final TransactionTypeService transactionTypeService;
+    private final SettingService settingService;
 
     public TransactionServiceImpl(TransactionRepository repository,
                                   OrderService orderService,
                                   CustomerService customerService,
                                   TransactionTypeService transactionTypeService,
-                                  Environment environment){
+                                  SettingService settingService){
         this.repository = repository;
         this.orderService = orderService;
         this.customerService = customerService;
         this.transactionTypeService = transactionTypeService;
-        this.environment = environment;
+        this.settingService = settingService;
     }
 
     @Override
@@ -48,19 +40,16 @@ public class TransactionServiceImpl implements TransactionService {
 
         Customer customer = customerService.getById(transactionDomain.getUserId());
         TransactionType transactionType = transactionTypeService.getById(transactionDomain.getTransactionTypeId());
+        Settings settings = settingService.getSettings();
 
         Transaction transaction = new Transaction();
-
         transaction.setTransactionType(transactionType);
         transaction.setCreatedDate(new Date());
         transaction.setCustomer(customer);
-
-        if (Const.CEPAT.equals(transactionType.getTransactionTypeName())) {
-            transaction.setFinishDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay().toInstant(ZoneOffset.MIN)));
-        } else {
-            transaction.setFinishDate(Date.from(LocalDate.now().plusDays(3).atStartOfDay().toInstant(ZoneOffset.MIN)));
-        }
-
+        transaction.setFinishDate(
+                Date.from(LocalDate.now()
+                .plusDays(transactionType.getDaysNeeded())
+                .atStartOfDay().toInstant(ZoneOffset.MIN)));
         transaction.setProgress(Const.STARTING);
         transaction.setStatus(Const.WIP);
         transaction.setDeliveryType(transactionDomain.getDeliveryType());
@@ -70,11 +59,11 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setPickUpDate(transactionDomain.getPickUpDate());
 
         if(transaction.getDeliveryType().equals(Const.DELIVERY_DIANTAR)){
-            transaction.setOngkir(transaction.getOngkir() + Long.parseLong(Objects.requireNonNull(environment.getProperty("laundry.payment.delivery.price"))));
+            transaction.setOngkir(transaction.getOngkir() + settings.getBasicDeliveryPrice());
         }
 
         if(transaction.getSubmissionType().equals(Const.DEPOSIT_DIJEMPUT)){
-            transaction.setOngkir(transaction.getOngkir() + Long.parseLong(Objects.requireNonNull(environment.getProperty("laundry.payment.delivery.price"))));
+            transaction.setOngkir(transaction.getOngkir() + settings.getBasicDeliveryPrice());
         }
 
         transaction.setPaymentType(transactionDomain.getPaymentType());

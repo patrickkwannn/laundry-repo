@@ -39,6 +39,7 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
         transactionType.setDescription(domain.getDescription());
         transactionType.setPrice(domain.getPrice());
         transactionType.setCreatedDate(new Date());
+        transactionType.setDaysNeeded(domain.getDaysNeeded());
 
         return transactionTypeRepository.save(transactionType);
     }

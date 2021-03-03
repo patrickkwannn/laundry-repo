@@ -2,15 +2,14 @@ package com.laundry.app.service.impl;
 
 import com.laundry.app.domain.StoreDomain;
 import com.laundry.app.domain.StoreInfo;
+import com.laundry.app.entity.Settings;
 import com.laundry.app.entity.Store;
 import com.laundry.app.repository.StoreRepository;
+import com.laundry.app.service.SettingService;
 import com.laundry.app.service.StoreService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * @author Patrick Kwan
@@ -19,36 +18,27 @@ import java.util.*;
 @Service
 public class StoreServiceImpl implements StoreService {
 
-    @Value("${laundry.payment.options}")
-    private String[] paymentOptions;
-
-    @Value("${laundry.pricing}")
-    private String[] paymentPricing;
-
-    @Value("{laundry.operational.hours}")
-    private String operationalHours;
-
-    private final Environment environment;
+    private final SettingService settingService;
     private final StoreRepository storeRepository;
 
     @Autowired
-    public StoreServiceImpl(Environment environment,
+    public StoreServiceImpl(SettingService settingService,
                             StoreRepository storeRepository){
-        this.environment = environment;
         this.storeRepository = storeRepository;
+        this.settingService = settingService;
     }
 
     @Override
-    public StoreInfo createStoreInfo() {
-        StoreInfo info = new StoreInfo();
-        info.setOperationalHours(operationalHours);
-        info.setPaymentMethod(Arrays.asList(paymentOptions.clone()));
-        Map<String, Long> pricing = new HashMap<>();
+    public StoreInfo createStoreInfo() throws NotFoundException {
 
-        for(String s : paymentPricing){
-            pricing.put(s, Long.parseLong(Objects.requireNonNull(environment.getProperty(s))));
-        }
-        info.setPricing(pricing);
+        Settings settings = settingService.getSettings();
+        StoreInfo info = new StoreInfo();
+        info.setOperationalHours(settings.getOperationalHours());
+        info.setPaymentMethod(settings.getPaymentOptions());
+        info.setBasicDeliveryPrice(settings.getBasicDeliveryPrice());
+        info.setMaxDelivery(settings.getMaxDelivery());
+        info.setPricePerKilo(settings.getPricePerKilo());
+        info.setPricePerPiece(settings.getPricePerPiece());
 
         return info;
     }

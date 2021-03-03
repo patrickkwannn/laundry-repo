@@ -15,5 +15,8 @@ import java.util.Map;
 public class StoreInfo {
     private String operationalHours;
     private List<String> paymentMethod;
-    private Map<String, Long> pricing;
+    private long pricePerKilo;
+    private long pricePerPiece;
+    private long basicDeliveryPrice;
+    private long maxDelivery;
 }
