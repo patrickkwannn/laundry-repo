@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service(value = "customerService")
@@ -89,6 +90,11 @@ public class CustomerServiceImpl implements UserDetailsService, CustomerService 
             throw new NotFoundException("Customer with id " + customerId + " is not found");
         }
         return customerRepository.getOne(customerId);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
     private void validateUser(String email, String username){

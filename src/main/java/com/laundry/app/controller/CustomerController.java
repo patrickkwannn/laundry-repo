@@ -28,17 +28,13 @@ public class CustomerController {
     private final AuthenticationManager authenticationManager;
     private final CustomerService customerService;
     private final TokenProvider tokenProvider;
-    private final RoleService roleService;
-
     @Autowired
     public CustomerController(CustomerService customerService,
                               AuthenticationManager authenticationManager,
-                              TokenProvider tokenProvider,
-                              RoleService roleService){
+                              TokenProvider tokenProvider){
         this.customerService = customerService;
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
-        this.roleService = roleService;
     }
 
     @PostMapping("/register")
@@ -60,8 +56,4 @@ public class CustomerController {
         return ResponseEntity.ok(new AuthToken(token));
     }
 
-    @GetMapping("/roles")
-    public ResponseEntity<List<Role>> allRoles(){
-        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
-    }
 }
