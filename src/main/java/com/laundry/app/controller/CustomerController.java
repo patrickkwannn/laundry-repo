@@ -4,8 +4,11 @@ import com.laundry.app.config.TokenProvider;
 import com.laundry.app.domain.AuthToken;
 import com.laundry.app.domain.CustomerDomain;
 import com.laundry.app.domain.LoginUser;
+import com.laundry.app.domain.RoleDomain;
 import com.laundry.app.entity.Customer;
+import com.laundry.app.entity.Role;
 import com.laundry.app.service.CustomerService;
+import com.laundry.app.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +26,17 @@ public class CustomerController {
     private final AuthenticationManager authenticationManager;
     private final CustomerService customerService;
     private final TokenProvider tokenProvider;
+    private final RoleService roleService;
 
     @Autowired
     public CustomerController(CustomerService customerService,
                               AuthenticationManager authenticationManager,
-                              TokenProvider tokenProvider){
+                              TokenProvider tokenProvider,
+                              RoleService roleService){
         this.customerService = customerService;
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
+        this.roleService = roleService;
     }
 
     @PostMapping("/register")
@@ -51,4 +57,5 @@ public class CustomerController {
         final String token = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new AuthToken(token));
     }
+
 }

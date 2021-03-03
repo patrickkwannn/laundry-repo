@@ -1,9 +1,12 @@
 # Laundry Repo
 
-## Api Documentation: 
->> /laundry/swagger-ui.html
+## Heroku web url
+> https://laundry-repo.herokuapp.com/laundry
 
-##User for testing :
+## Api Documentation:
+> https://laundry-repo.herokuapp.com/laundry/swagger-ui.html
+
+## User for testing :
 >Customer
 >> username = babi
 >
@@ -13,5 +16,3 @@
 >> username = admin
 > 
 >> password = admin
-
-
