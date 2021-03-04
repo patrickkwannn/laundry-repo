@@ -29,6 +29,7 @@ public class TransactionController {
     }
 
     @PostMapping("/add")
+    @CrossOrigin
     public ResponseEntity<OrdersDomain> addTransaction(@RequestBody TransactionDomain transactionDomain) throws NotFoundException {
         Transaction newTransaction = transactionService.createTransaction(transactionDomain);
 
@@ -36,6 +37,7 @@ public class TransactionController {
     }
 
     @GetMapping("/history")
+    @CrossOrigin
     public ResponseEntity<List<OrdersDomain>> getHistory(@RequestParam long customerId){
         List<Transaction> transactions = transactionService.getByCustomerId(customerId);
         return new ResponseEntity<>(orderService.setListOrderDomain(transactions), HttpStatus.OK);
@@ -43,12 +45,14 @@ public class TransactionController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update-status")
+    @CrossOrigin
     public ResponseEntity<OrdersDomain> updateStatusTransaction(@RequestParam long transactionId) throws NotFoundException {
         Transaction transaction = transactionService.updateProgress(transactionId);
         return new ResponseEntity<>(orderService.setOrderDomain(transaction), HttpStatus.OK);
     }
 
     @GetMapping("/ongoing")
+    @CrossOrigin
     public ResponseEntity<List<OrdersDomain>> getOngoing(@RequestParam long customerId){
         List<Transaction> transactions = transactionService.getOngoingTransaction(customerId);
         return new ResponseEntity<>(orderService.setListOrderDomain(transactions), HttpStatus.OK);

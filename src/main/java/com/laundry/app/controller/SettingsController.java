@@ -38,22 +38,26 @@ public class SettingsController {
         this.customerService = customerService;
     }
 
+    @CrossOrigin
     @PostMapping("/update")
     public ResponseEntity<Settings> updateSettings(@RequestBody StoreInfo domain) throws NotFoundException {
         return new ResponseEntity<>(settingService.updateSettings(domain), HttpStatus.OK);
     }
 
     @PostMapping("/roles")
+    @CrossOrigin
     public ResponseEntity<Role> addRoles(@RequestBody RoleDomain roleDomain){
         return new ResponseEntity<>(roleService.addRole(roleDomain.getName(), roleDomain.getDescription()), HttpStatus.OK);
     }
 
     @GetMapping("/roles")
+    @CrossOrigin
     public ResponseEntity<List<Role>> allRoles(){
         return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
     }
 
     @GetMapping("/users")
+    @CrossOrigin
     public ResponseEntity<List<Customer>> allUsers(){
         return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
     }

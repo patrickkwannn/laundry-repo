@@ -27,12 +27,14 @@ public class StoreController {
     }
 
     @GetMapping("/info")
+    @CrossOrigin
     public ResponseEntity<StoreInfo> storeInfo() throws NotFoundException {
         return new ResponseEntity<>(storeService.createStoreInfo(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
+    @CrossOrigin
     public ResponseEntity<Store> addStore(@RequestBody StoreDomain storeDomain){
         return new ResponseEntity<>(storeService.addStore(storeDomain), HttpStatus.OK);
     }

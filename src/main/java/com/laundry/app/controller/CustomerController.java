@@ -38,11 +38,13 @@ public class CustomerController {
     }
 
     @PostMapping("/register")
+    @CrossOrigin
     public ResponseEntity<Customer> addCustomer(@RequestBody CustomerDomain customerDomain){
         return new ResponseEntity<>(customerService.saveCustomer(customerDomain), HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")
+    @CrossOrigin
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
 
         final Authentication authentication = authenticationManager.authenticate(
