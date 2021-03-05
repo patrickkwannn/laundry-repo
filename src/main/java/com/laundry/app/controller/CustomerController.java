@@ -9,6 +9,7 @@ import com.laundry.app.entity.Customer;
 import com.laundry.app.entity.Role;
 import com.laundry.app.service.CustomerService;
 import com.laundry.app.service.RoleService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class CustomerController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException, NotFoundException {
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -53,7 +54,8 @@ public class CustomerController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new AuthToken(token));
-    }
 
+        Customer customer = customerService.getByUsername(loginUser.getUsername());
+        return ResponseEntity.ok(new AuthToken(customer, token));
+    }
 }

@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="Entities" />
           <factory-entry name="entityManagerFactory" value="736cdb65-389a-4705-a3a0-1ffa982ba772" />
           <factory-entry name="laundry-repo" value="736cdb65-389a-4705-a3a0-1ffa982ba772" />
         </datasource-mapping>

@@ -97,6 +97,13 @@ public class CustomerServiceImpl implements UserDetailsService, CustomerService 
         return customerRepository.findAll();
     }
 
+    @Override
+    public Customer getByUsername(String username) throws NotFoundException {
+        if(customerRepository.existsByUsername(username)) {
+            return customerRepository.findByUsername(username);
+        } else throw new NotFoundException("Username not found : " + username);
+    }
+
     private void validateUser(String email, String username){
         if(customerRepository.existsByEmail(email)){
             throw new IllegalArgumentException("User already exists for email : " + email);

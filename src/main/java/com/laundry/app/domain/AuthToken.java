@@ -1,5 +1,6 @@
 package com.laundry.app.domain;
 
+import com.laundry.app.entity.Customer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Setter
 public class AuthToken {
     private String token;
-
-    public AuthToken(String token){
+    private Customer customer;
+    public AuthToken(Customer customer, String token){
+        this.customer = customer;
         this.token = token;
     }
 }

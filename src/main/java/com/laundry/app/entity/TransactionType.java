@@ -23,7 +23,7 @@ public class TransactionType implements Serializable {
     public static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "transaction_type_id")
     private long transactionTypeId;
 
