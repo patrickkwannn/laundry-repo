@@ -4,11 +4,8 @@ import com.laundry.app.config.TokenProvider;
 import com.laundry.app.domain.AuthToken;
 import com.laundry.app.domain.CustomerDomain;
 import com.laundry.app.domain.LoginUser;
-import com.laundry.app.domain.RoleDomain;
 import com.laundry.app.entity.Customer;
-import com.laundry.app.entity.Role;
 import com.laundry.app.service.CustomerService;
-import com.laundry.app.service.RoleService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/secured")
@@ -55,9 +50,10 @@ public class CustomerController {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String token = tokenProvider.generateToken(authentication);
-
         Customer customer = customerService.getByUsername(loginUser.getUsername());
+
+        final String token = tokenProvider.generateToken(authentication, customer);
+
         return ResponseEntity.ok(new AuthToken(customer, token));
     }
 }

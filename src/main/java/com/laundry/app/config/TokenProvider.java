@@ -1,5 +1,6 @@
 package com.laundry.app.config;
 
+import com.laundry.app.entity.Customer;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,12 +54,19 @@ public class TokenProvider implements Serializable {
         return expiration.before(new Date());
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, Customer customer) {
          String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
+         Claims claims = Jwts.claims()
+                 .setSubject(customer.getEmail());
+         claims.put("username", customer.getUsername());
+         claims.put("email", customer.getEmail());
+         claims.put("customerId", customer.getCustomerId());
+
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
