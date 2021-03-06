@@ -50,10 +50,11 @@ public class CustomerController {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         Customer customer = customerService.getByUsername(loginUser.getUsername());
 
         final String token = tokenProvider.generateToken(authentication, customer);
 
-        return ResponseEntity.ok(new AuthToken(customer, token));
+        return ResponseEntity.ok(new AuthToken(token));
     }
 }
