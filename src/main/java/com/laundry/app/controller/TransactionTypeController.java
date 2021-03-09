@@ -1,9 +1,13 @@
 package com.laundry.app.controller;
 
 import com.laundry.app.domain.TransactionTypeDomain;
+import com.laundry.app.entity.Transaction;
 import com.laundry.app.entity.TransactionType;
 import com.laundry.app.service.TransactionTypeService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +28,10 @@ public class TransactionTypeController {
         this.transactionTypeService = transactionTypeService;
     }
 
+    @ApiOperation(
+            value = "API to add transactiontype, (REGULER EXPRESS DLL)",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = TransactionType.class)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     @CrossOrigin
