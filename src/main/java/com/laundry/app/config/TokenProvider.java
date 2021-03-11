@@ -64,6 +64,7 @@ public class TokenProvider implements Serializable {
          claims.put("username", customer.getUsername());
          claims.put("email", customer.getEmail());
          claims.put("customerId", customer.getCustomerId());
+         claims.put("address", customer.getAddress());
 
         return Jwts.builder()
                 .setClaims(claims)
