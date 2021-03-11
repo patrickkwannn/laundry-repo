@@ -57,6 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setOngkir(Const.ZERO);
         transaction.setOrderType(transactionDomain.getCategory());
         transaction.setPickUpDate(transactionDomain.getPickUpDate());
+        transaction.setAddress(transactionDomain.getAddress());
 
         if(transaction.getDeliveryType().equals(Const.DELIVERY_DIANTAR)){
             transaction.setOngkir(transaction.getOngkir() + settings.getBasicDeliveryPrice());

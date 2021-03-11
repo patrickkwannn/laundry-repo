@@ -19,4 +19,5 @@ public class TransactionDomain {
     private String submissionType;
     private String category;
     private Map<String, Integer> items;
+    private String address;
 }

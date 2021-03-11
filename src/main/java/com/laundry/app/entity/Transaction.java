@@ -68,6 +68,9 @@ public class Transaction implements Serializable {
     @Column(name = "pick_up_date")
     private Date pickUpDate;
 
+    @Column(name = "address") //tujuan laundry
+    private String address;
+
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
