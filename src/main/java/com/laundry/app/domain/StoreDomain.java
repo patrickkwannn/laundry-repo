@@ -16,4 +16,5 @@ public class StoreDomain {
     private String address;
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private String state;
 }

@@ -11,6 +11,8 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Patrick Kwan
  * Created on 02/03/2021
@@ -52,5 +54,18 @@ public class StoreServiceImpl implements StoreService {
         store.setLongitude(domain.getLongitude());
 
         return storeRepository.save(store);
+    }
+
+    @Override
+    public List<Store> getAllStore() {
+        return storeRepository.findAll();
+    }
+
+    @Override
+    public Store getStoreById(Long id) throws NotFoundException {
+        if(storeRepository.existsById(id)){
+            return storeRepository.getOne(id);
+        }
+        else throw new NotFoundException("Store not found for id : " + id);
     }
 }

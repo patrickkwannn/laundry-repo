@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Patrick Kwan
  * Created on 02/03/2021
@@ -33,7 +35,7 @@ public class StoreController {
             value = "Api to get store info",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = StoreInfo.class)
-    @GetMapping("/info")
+    @GetMapping("/info-settings")
     @CrossOrigin
     public ResponseEntity<StoreInfo> storeInfo() throws NotFoundException {
         return new ResponseEntity<>(storeService.createStoreInfo(), HttpStatus.OK);
@@ -48,6 +50,27 @@ public class StoreController {
     @CrossOrigin
     public ResponseEntity<Store> addStore(@RequestBody StoreDomain storeDomain){
         return new ResponseEntity<>(storeService.addStore(storeDomain), HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            value = "Api to get all store",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = Store.class,
+            responseContainer = "List")
+    @GetMapping("/list")
+    @CrossOrigin
+    public ResponseEntity<List<Store>> getAllStore(){
+        return new ResponseEntity<>(storeService.getAllStore(), HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            value = "Api to get store by id",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = Store.class)
+    @GetMapping("/get-by-id")
+    @CrossOrigin
+    public ResponseEntity<Store> getStoreById(@RequestParam Long id) throws NotFoundException {
+        return new ResponseEntity<>(storeService.getStoreById(id), HttpStatus.OK);
     }
 
 }

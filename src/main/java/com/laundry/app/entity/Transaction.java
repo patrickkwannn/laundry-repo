@@ -45,6 +45,10 @@ public class Transaction implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="Asia/Jakarta")
     private Date finishDate;
 
+    @ManyToOne //dimana yg ngelaundry
+    @JoinColumn(name = "store_id")
+    private Store store;
+
     @ManyToOne
     @JoinColumn(name = "transaction_type_id") //tipe transaksi / tipe paket ( cepat - 3 hari )
     private TransactionType transactionType;

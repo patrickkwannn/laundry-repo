@@ -7,15 +7,12 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
-
 
 @Component
-public class UnauthorizedEntryPoint implements AuthenticationEntryPoint, Serializable {
-
+public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException{
+        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Sorry , The Username you entered does not exist");
     }
-
 }
+

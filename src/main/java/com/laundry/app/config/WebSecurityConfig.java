@@ -25,8 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "customerService")
     private UserDetailsService userDetailsService;
 
+    private final JWTAuthenticationEntryPoint unauthorizedEntryPoint;
+
     @Autowired
-    private UnauthorizedEntryPoint unauthorizedEntryPoint;
+    public WebSecurityConfig(JWTAuthenticationEntryPoint authenticationEntryPoint){
+        this.unauthorizedEntryPoint = authenticationEntryPoint;
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

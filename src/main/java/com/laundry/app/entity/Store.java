@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Getter
 @Table(name = "store")
 public class Store implements Serializable {
-    //TODO
+    //TODO bikin info buat store
     public static final long serialVersionUID = 1L;
 
     @Id
