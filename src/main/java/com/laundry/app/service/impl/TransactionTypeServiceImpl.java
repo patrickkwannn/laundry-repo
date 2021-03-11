@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Patrick Kwan
@@ -42,6 +43,11 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
         transactionType.setDaysNeeded(domain.getDaysNeeded());
 
         return transactionTypeRepository.save(transactionType);
+    }
+
+    @Override
+    public List<TransactionType> getAll() {
+        return transactionTypeRepository.findAll();
     }
 
 

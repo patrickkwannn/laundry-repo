@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Patrick Kwan
  * Created on 01/03/2021
@@ -37,6 +39,16 @@ public class TransactionTypeController {
     @CrossOrigin
     public ResponseEntity<TransactionType> addTransactionType(@RequestBody TransactionTypeDomain transactionTypeDomain){
         return new ResponseEntity<>(transactionTypeService.createTransactionType(transactionTypeDomain), HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            value = "Api to get all transaction type)",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = TransactionType.class)
+    @GetMapping("/get-all")
+    @CrossOrigin
+    public ResponseEntity<List<TransactionType>> getAllTransactionType(){
+        return new ResponseEntity<>(transactionTypeService.getAll(), HttpStatus.OK);
     }
 
 }
