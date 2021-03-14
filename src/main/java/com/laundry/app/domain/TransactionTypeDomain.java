@@ -14,4 +14,5 @@ public class TransactionTypeDomain {
     private long price;
     private String description;
     private int daysNeeded;
+    private long transactionTypeId;
 }

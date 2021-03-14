@@ -51,4 +51,15 @@ public class TransactionTypeController {
         return new ResponseEntity<>(transactionTypeService.getAll(), HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Api to update transaction type)",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = TransactionType.class)
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/update")
+    @CrossOrigin
+    public ResponseEntity<TransactionType> updateTransactionType(@RequestBody TransactionTypeDomain domain){
+        return  new ResponseEntity<>(transactionTypeService.update(domain), HttpStatus.OK);
+    }
+
 }
