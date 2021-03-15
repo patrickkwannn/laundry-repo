@@ -33,8 +33,8 @@ public class Const {
     public static final String PER_KILO = "per_kilo";
 
     // Transaction Type
-    public static final String REGULAR = "paket regular";
-    public static final String CEPAT = "paket cepat";
+    public static final String REGULAR = "paket_regular";
+    public static final String CEPAT = "paket_cepat";
 
     // Roles / buat jaga2
     public static final String USER = "USER";
