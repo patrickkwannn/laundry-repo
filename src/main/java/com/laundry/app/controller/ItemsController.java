@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Patrick Kwan
  * Created on 01/03/2021
@@ -36,5 +38,16 @@ public class ItemsController {
     @CrossOrigin
     public ResponseEntity<Items> addItems(@RequestBody ItemsDomain itemsDomain){
         return new ResponseEntity<>(itemsService.createItem(itemsDomain), HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            value = "Api to add new clothing items, only for admins",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = Items.class,
+            responseContainer = "List")
+    @GetMapping("/get-all")
+    @CrossOrigin
+    public ResponseEntity<List<Items>> getAllItems(){
+        return new ResponseEntity<>(itemsService.getAll(), HttpStatus.OK);
     }
 }

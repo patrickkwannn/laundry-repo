@@ -2,7 +2,6 @@ package com.laundry.app.controller;
 
 import com.laundry.app.domain.OrdersDomain;
 import com.laundry.app.domain.TransactionDomain;
-import com.laundry.app.entity.Orders;
 import com.laundry.app.entity.Transaction;
 import com.laundry.app.service.OrderService;
 import com.laundry.app.service.TransactionService;

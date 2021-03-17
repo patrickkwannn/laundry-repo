@@ -1,7 +1,6 @@
 package com.laundry.app.controller;
 
 import com.laundry.app.domain.TransactionTypeDomain;
-import com.laundry.app.entity.Transaction;
 import com.laundry.app.entity.TransactionType;
 import com.laundry.app.service.TransactionTypeService;
 import io.swagger.annotations.ApiOperation;

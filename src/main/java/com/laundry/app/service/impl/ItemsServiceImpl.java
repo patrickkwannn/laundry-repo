@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -55,6 +56,11 @@ public class ItemsServiceImpl implements ItemsService {
         }
 
         return itemsRepository.getOne(id);
+    }
+
+    @Override
+    public List<Items> getAll() {
+        return itemsRepository.findAll();
     }
 
     @EventListener(ApplicationReadyEvent.class)
