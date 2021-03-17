@@ -63,9 +63,17 @@ public class ItemsServiceImpl implements ItemsService {
         return itemsRepository.findAll();
     }
 
+    @Override
+    public void flush() {
+        List<Items> items = itemsRepository.findAll();
+        for(Items x : items){
+            itemsRepository.delete(x);
+        }
+    }
+
     @EventListener(ApplicationReadyEvent.class)
     public void addBasicItems(){
-        if(itemsRepository.findAll().size() <= items.length) {
+        if(itemsRepository.findAll().isEmpty()) {
             for (String x : items) {
                 Items item = new Items();
                 item.setItemName(x);

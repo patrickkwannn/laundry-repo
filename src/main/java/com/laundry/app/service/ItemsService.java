@@ -14,4 +14,5 @@ public interface ItemsService {
     Items createItem(ItemsDomain itemsDomain);
     Items getById(long id) throws NotFoundException;
     List<Items> getAll();
+    void flush();
 }

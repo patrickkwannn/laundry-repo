@@ -41,7 +41,7 @@ public class ItemsController {
     }
 
     @ApiOperation(
-            value = "Api to add new clothing items, only for admins",
+            value = "Api to get all items from db -> to add transaction",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Items.class,
             responseContainer = "List")
@@ -50,4 +50,17 @@ public class ItemsController {
     public ResponseEntity<List<Items>> getAllItems(){
         return new ResponseEntity<>(itemsService.getAll(), HttpStatus.OK);
     }
+
+    @ApiOperation(
+            value = "Api to flush all items",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = String.class)
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/flush")
+    @CrossOrigin
+    public ResponseEntity<?> flushItems(){
+        itemsService.flush();
+        return ResponseEntity.ok("flushed");
+    }
+
 }
