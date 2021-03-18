@@ -45,11 +45,11 @@ public class Transaction implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="Asia/Jakarta")
     private Date finishDate;
 
-    @ManyToOne //dimana yg ngelaundry
+    @ManyToOne(cascade = CascadeType.MERGE) //dimana yg ngelaundry
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "transaction_type_id") //tipe transaksi / tipe paket ( cepat - 3 hari )
     private TransactionType transactionType;
 
@@ -71,7 +71,7 @@ public class Transaction implements Serializable {
     @Column(name = "address") //tujuan laundry
     private String address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 }

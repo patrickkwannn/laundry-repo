@@ -29,7 +29,7 @@ public class Orders implements Serializable {
     @Column(name = "quantity")
     private int quantity;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "transaction_id")
     @JsonIgnore
     private Transaction transaction;
