@@ -42,7 +42,7 @@ public class StoreController {
     }
 
     @ApiOperation(
-            value = "Api to add store, only for admins",
+            value = "Api to add store, only for admins [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Store.class)
     @PreAuthorize("hasRole('ADMIN')")

@@ -56,7 +56,7 @@ public class TransactionController {
     }
 
     @ApiOperation(
-            value = "API to update progress. e.g from starting -> started -> ironing, only for admins",
+            value = "API to update progress. e.g from starting -> started -> ironing, [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = OrdersDomain.class)
     @PreAuthorize("hasRole('ADMIN')")

@@ -30,7 +30,7 @@ public class TransactionTypeController {
     }
 
     @ApiOperation(
-            value = "API to add transactiontype, (REGULER EXPRESS DLL)",
+            value = "API to add transactiontype, (REGULER EXPRESS DLL) [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = TransactionType.class)
     @PreAuthorize("hasRole('ADMIN')")
@@ -51,7 +51,7 @@ public class TransactionTypeController {
     }
 
     @ApiOperation(
-            value = "Api to update transaction type)",
+            value = "Api to update transaction type [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = TransactionType.class)
     @PreAuthorize("hasRole('ADMIN')")

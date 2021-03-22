@@ -30,7 +30,7 @@ public class ItemsController {
     }
 
     @ApiOperation(
-            value = "Api to add new clothing items, only for admins",
+            value = "Api to add new clothing items, only for admins [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Items.class)
     @PreAuthorize("hasRole('ADMIN')")
@@ -52,7 +52,7 @@ public class ItemsController {
     }
 
     @ApiOperation(
-            value = "Api to flush all items",
+            value = "Api to flush all items [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = String.class)
     @PreAuthorize("hasRole('ADMIN')")

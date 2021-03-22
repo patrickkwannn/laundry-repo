@@ -41,9 +41,10 @@ public class SettingsController {
     }
 
     @ApiOperation(
-            value = "Api to update store info",
+            value = "Api to update store info [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Settings.class)
+    @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin
     @PostMapping("/update")
     public ResponseEntity<Settings> updateSettings(@RequestBody StoreInfo domain) throws NotFoundException {
@@ -51,31 +52,34 @@ public class SettingsController {
     }
 
     @ApiOperation(
-            value = "Api to add role",
+            value = "Api to add role [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Role.class)
-    @PostMapping("/roles")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/add-roles")
     @CrossOrigin
     public ResponseEntity<Role> addRoles(@RequestBody RoleDomain roleDomain){
         return new ResponseEntity<>(roleService.addRole(roleDomain.getName(), roleDomain.getDescription()), HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Api to get all roles available",
+            value = "Api to get all roles available [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Role.class,
             responseContainer = "List")
-    @GetMapping("/roles")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/get-roles")
     @CrossOrigin
     public ResponseEntity<List<Role>> allRoles(){
         return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Api to get all users available",
+            value = "Api to get all users available [ADMIN ONLY]",
             authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
             response = Customer.class,
             responseContainer = "List")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     @CrossOrigin
     public ResponseEntity<List<Customer>> allUsers(){
