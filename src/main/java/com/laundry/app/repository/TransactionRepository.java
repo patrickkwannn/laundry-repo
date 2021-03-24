@@ -10,4 +10,5 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findAllByCustomer_CustomerIdOrderByCreatedDateDesc(long customerId);
     List<Transaction> findAllByCustomer_CustomerIdAndStatusOrderByCreatedDateDesc(long customerId, String status);
+    List<Transaction> findAllByProgressAndStore_StoreId(String progress, long storeId);
 }

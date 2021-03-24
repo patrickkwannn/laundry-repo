@@ -54,6 +54,8 @@ public class OrderServiceImpl implements OrderService {
             order.put(o.getItems().getItemName(), o.getQuantity());
         }
 
+        ordersDomain.setStore(transaction.getStore());
+        ordersDomain.setCreatedDate(transaction.getCreatedDate());
         ordersDomain.setOngkir(transaction.getOngkir());
         ordersDomain.setTotalPrice(transaction.getTotalPrice());
         ordersDomain.setOrders(order);

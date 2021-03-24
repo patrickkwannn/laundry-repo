@@ -117,6 +117,11 @@ public class TransactionServiceImpl implements TransactionService {
         return repository.findAllByCustomer_CustomerIdAndStatusOrderByCreatedDateDesc(customerId, Const.WIP);
     }
 
+    @Override
+    public List<Transaction> getTransactionByProgressAndStore(String progress, long storeId) {
+        return repository.findAllByProgressAndStore_StoreId(progress, storeId);
+    }
+
     private Long calculatePrice(Transaction transaction) {
         long price = 0L;
         Set<Orders> orders = orderService.getOrdersByTransactionId(transaction.getTransactionId());

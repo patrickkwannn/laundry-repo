@@ -2,6 +2,7 @@ package com.laundry.app.domain;
 
 import com.laundry.app.entity.Customer;
 import com.laundry.app.entity.Orders;
+import com.laundry.app.entity.Store;
 import com.laundry.app.entity.TransactionType;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,6 @@ public class OrdersDomain {
     private String paymentType;
     private String submissionType;
     private Date pickUpDate;
+    private Date createdDate;
+    private Store store;
 }

@@ -2,6 +2,7 @@ package com.laundry.app.controller;
 
 import com.laundry.app.domain.OrdersDomain;
 import com.laundry.app.domain.TransactionDomain;
+import com.laundry.app.en.Const;
 import com.laundry.app.entity.Transaction;
 import com.laundry.app.service.OrderService;
 import com.laundry.app.service.TransactionService;
@@ -77,5 +78,16 @@ public class TransactionController {
     public ResponseEntity<List<OrdersDomain>> getOngoing(@RequestParam long customerId){
         List<Transaction> transactions = transactionService.getOngoingTransaction(customerId);
         return new ResponseEntity<>(orderService.setListOrderDomain(transactions), HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            value = "API to get new transactions by store id",
+            authorizations = {@Authorization(value = HttpHeaders.AUTHORIZATION)},
+            response = OrdersDomain.class,
+            responseContainer = "List")
+    @CrossOrigin
+    @GetMapping("/new-transactions")
+    public ResponseEntity<List<OrdersDomain>> getNewTransactionsByStoreId(@RequestParam long storeId){
+        return new ResponseEntity<>(orderService.setListOrderDomain(transactionService.getTransactionByProgressAndStore(Const.STARTING, storeId)), HttpStatus.OK);
     }
 }

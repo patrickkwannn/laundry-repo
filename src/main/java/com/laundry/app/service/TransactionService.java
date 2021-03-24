@@ -12,4 +12,5 @@ public interface TransactionService {
     List<Transaction> getByCustomerId(long customerId);
     Transaction updateProgress(long id) throws NotFoundException;
     List<Transaction> getOngoingTransaction(long customerId);
+    List<Transaction> getTransactionByProgressAndStore(String progress, long storeId);
 }
